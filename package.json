@@ -23,6 +23,7 @@
   "homepage": "https://github.com/fabianferno/express-typescript-boilerplate#readme",
   "dependencies": {
     "@supabase/supabase-js": "1.35.6",
+    "apicache": "1.6.3",
     "axios": "0.27.2",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
