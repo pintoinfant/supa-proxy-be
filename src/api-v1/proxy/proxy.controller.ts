@@ -10,10 +10,10 @@ export default class ProxyController {
       let slug = req.params.slug;
       let { data } = await supabase
         .from("config")
-        .select("original_url , cache , cache_time")
+        .select("original_url , cache_required , cache_time_in_mins")
         .eq("slug", slug);
 
-      let { original_url, cache, cache_time } = data[0];
+      let { original_url, cache_required, cache_time_in_mins } = data[0];
       let params = req.originalUrl.replace(`/v1/proxy/${slug}`, "");
       let url = `${original_url}${params}`;
       let method = req.method;
@@ -24,10 +24,10 @@ export default class ProxyController {
         params: req.query,
         data: JSON.stringify(req.body),
       });
-      if (cache) {
+      if (cache_required) {
         let key = await uniqueKey(req);
         await redisClient.set(key, JSON.stringify(response.data), {
-          EX: cache_time * 60, // cache time in seconds
+          EX: cache_time_in_mins * 60, // cache time in seconds
         });
       }
       return res.status(200).json({

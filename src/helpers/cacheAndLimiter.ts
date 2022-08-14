@@ -35,6 +35,7 @@ export const cache = async (
   let key = uniqueKey(req);
   const cachedData = await redisClient.get(key);
   if (cachedData) {
+    console.log("Serving Cached Data");
     return res.json({
       success: true,
       data: JSON.parse(cachedData),
