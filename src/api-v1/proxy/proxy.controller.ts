@@ -1,7 +1,8 @@
 //import * as bcrypt from 'bcrypt';
 import { Request, Response } from "express";
-import { supabase } from "../../utils/client";
+import { supabase, redisClient } from "../../helpers/client";
 import axios from "axios";
+import { uniqueKey } from "../../helpers/uniqueKey";
 
 export default class ProxyController {
   public proxyData = async (req: Request, res: Response): Promise<any> => {
@@ -9,20 +10,26 @@ export default class ProxyController {
       let slug = req.params.slug;
       let { data } = await supabase
         .from("config")
-        .select("original_url")
+        .select("original_url , cache , cache_time")
         .eq("slug", slug);
 
-      let { original_url } = data[0];
+      let { original_url, cache, cache_time } = data[0];
       let params = req.originalUrl.replace(`/v1/proxy/${slug}`, "");
       let url = `${original_url}${params}`;
       let method = req.method;
-     
+
       let response = await axios.request({
         method,
         url,
         params: req.query,
         data: JSON.stringify(req.body),
       });
+      if (cache) {
+        let key = await uniqueKey(req);
+        await redisClient.set(key, JSON.stringify(response.data), {
+          EX: cache_time * 60, // cache time in seconds
+        });
+      }
       return res.status(200).json({
         message: "Success",
         data: JSON.parse(JSON.stringify(response.data)),

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { supabase } from "../utils/client";
+import { supabase } from "./client";
 
 export const supabaseLog = async (
   req: Request,
