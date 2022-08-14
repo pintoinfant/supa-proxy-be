@@ -6,22 +6,10 @@ import * as morgan from "morgan";
 import apiV1 from "./api-v1/index";
 import * as errorHandler from "./helpers/errorHandler";
 import home from "./home";
-import rateLimit from "express-rate-limit";
 import { supabaseLog } from "./helpers/supabaseLog";
 
 class App {
   public express: express.Application;
-
-  apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 50, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-    message: {
-      success: false,
-      message: "Too many requests from this IP, please try again after an hour",
-    },
-  });
 
   constructor() {
     this.express = express();
@@ -39,7 +27,6 @@ class App {
     this.express.use(helmet());
     this.express.use(express.static("public"));
     this.express.use(supabaseLog);
-    this.express.use(this.apiLimiter);
   }
 
   private setRoutes(): void {
