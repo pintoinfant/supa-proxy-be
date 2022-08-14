@@ -43,28 +43,3 @@ export const cache = async (
     next();
   }
 };
-
-// export const async function rateLimiter(
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   return async function ({ limit }) {
-//     const ip = req.ip;
-//     const request = await redisClient.get(ip);
-//     console.log(request);
-//     next();
-
-//     // if (request === 1) {
-//     //   await redisClient.expire(ip, 60 * 60 * 1000);
-//     // }
-
-//     // if (request > limit) {
-//     //   return res.json({
-//     //     success: false,
-//     //     message: "Too many request",
-//     //   });
-//     // } else {
-//     // }
-//   };
-// }
