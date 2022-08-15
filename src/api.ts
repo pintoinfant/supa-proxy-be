@@ -5,6 +5,7 @@ import * as helmet from "helmet";
 import apiV1 from "./api-v1/index";
 import * as errorHandler from "./helpers/errorHandler";
 import home from "./home";
+import * as morgan from "morgan";
 import { supabaseLog } from "./helpers/supabaseLog";
 
 class App {
@@ -20,6 +21,7 @@ class App {
   private setMiddlewares(): void {
     this.express.use(cors());
     this.express.use(nocache());
+    this.express.use(morgan("dev"));
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(helmet());
