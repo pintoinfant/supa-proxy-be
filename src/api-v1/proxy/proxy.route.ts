@@ -8,7 +8,6 @@ const controller = new Controller();
 // proxy.use(rateLimiter);
 
 // Retrieve all Users
-proxy.get("/:slug", controller.proxyData);
-proxy.all("/:slug/*", rateLimiter, cache, controller.proxyData);
+proxy.all("/*", rateLimiter, cache, controller.proxyData);
 
 export default proxy;

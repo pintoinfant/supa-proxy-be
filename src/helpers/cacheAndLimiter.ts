@@ -3,7 +3,8 @@ import { supabase, redisClient } from "./client";
 import { uniqueKey } from "./uniqueKey";
 
 export const rateLimiter = async (req, res, next) => {
-  let slug = req.originalUrl.split("/")[3];
+  let slug = req.originalUrl.split("/")[2];
+  // console.log(req.originalUrl.split("/"))
   let slug_data = await supabase
     .from("config")
     .select("req_per_hour")

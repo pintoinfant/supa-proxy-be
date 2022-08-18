@@ -7,6 +7,7 @@ import * as errorHandler from "./helpers/errorHandler";
 import home from "./home";
 import * as morgan from "morgan";
 import { supabaseLog } from "./helpers/supabaseLog";
+import proxy from "./api-v1/proxy/proxy.route";
 
 class App {
   public express: express.Application;
@@ -32,6 +33,7 @@ class App {
   private setRoutes(): void {
     this.express.use("/", home);
     this.express.use("/v1", apiV1);
+    this.express.use("/:slug", proxy);
   }
 
   private catchErrors(): void {
