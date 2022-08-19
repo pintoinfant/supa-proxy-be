@@ -4,6 +4,7 @@ import { uniqueKey } from "./uniqueKey";
 
 export const rateLimiter = async (req, res, next) => {
   let slug = req.originalUrl.split("/")[2];
+  console.log(slug)
   // console.log(req.originalUrl.split("/"))
   let slug_data = await supabase
     .from("config")

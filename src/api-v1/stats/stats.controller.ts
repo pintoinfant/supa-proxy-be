@@ -11,10 +11,10 @@ export default class StatsController {
       const methods = [...new Set(data.map(item => item.method))];
       const result = methods.map(method => {
         return {
-          method,
-          count: data.filter(item => item.method === method).length,
+          name: method,
+          value: data.filter(item => item.method === method).length,
         }
-      }).sort((a, b) => b.count - a.count);
+      }).sort((a, b) => b.value - a.value);
       return res.status(200).json({
         message: "Success",
         data: result,
@@ -31,7 +31,6 @@ export default class StatsController {
 
   public getPath = async (req: Request, res: Response): Promise<any> => {
     let slug = req.originalUrl.split("/")[3];
-    //postgrest group by method
     try {
       const { data, error } = await supabase.from("logs").select("*").eq("slug", slug);
       const paths = [...new Set(data.map(item => item.path))];
@@ -41,9 +40,18 @@ export default class StatsController {
           count: data.filter(item => item.path === path).length,
         }
       }).sort((a, b) => b.count - a.count);
+      let xAxis = []
+      let yAxis = []
+      result.map((item) => {
+        xAxis.push(item.path)
+        yAxis.push(item.count)
+      })
       return res.status(200).json({
         message: "Success",
-        data: result,
+        data: {
+          xAxis,
+          yAxis
+        },
         // count
       });
     } catch (e) {
