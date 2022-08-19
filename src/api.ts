@@ -2,7 +2,6 @@ import * as cors from "cors";
 import * as nocache from "nocache";
 import * as express from "express";
 import * as helmet from "helmet";
-import apiV1 from "./api-v1/index";
 import * as errorHandler from "./helpers/errorHandler";
 import home from "./home";
 import * as morgan from "morgan";
@@ -32,7 +31,6 @@ class App {
 
   private setRoutes(): void {
     this.express.use("/", home);
-    this.express.use("/v1", apiV1);
     this.express.use("/:slug", proxy);
   }
 

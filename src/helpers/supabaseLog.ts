@@ -6,8 +6,8 @@ export const supabaseLog = async (
   res: Response,
   next: NextFunction
 ) => {
-  let slug = req.originalUrl.split("/")[2];
-  let params = req.originalUrl.replace(`/v1/${slug}`, "");
+  let slug = req.originalUrl.split("/")[1];
+  let params = req.originalUrl.replace(`/${slug}`, "");
   await supabase.from("logs").insert([
     {
       slug,

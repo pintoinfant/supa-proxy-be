@@ -4,7 +4,7 @@ import { uniqueKey } from "./uniqueKey";
 
 export const rateLimiter = async (req, res, next) => {
   try {
-    let slug = req.originalUrl.split("/")[2];
+    let slug = req.originalUrl.split("/")[1];
     let { data } = await supabase
       .from("config")
       .select("req_per_hour")

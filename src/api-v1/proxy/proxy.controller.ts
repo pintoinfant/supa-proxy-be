@@ -7,15 +7,15 @@ import { uniqueKey } from "../../helpers/uniqueKey";
 export default class ProxyController {
   public proxyData = async (req: Request, res: Response): Promise<any> => {
     try {
-      let slug = req.originalUrl.split("/")[2];
-      // console.log(slug)
+      let slug = req.originalUrl.split("/")[1];
+      console.log(slug)
       let { data } = await supabase
         .from("config")
         .select("original_url , cache_required , cache_time_in_mins")
         .eq("slug", slug);
 
       let { original_url, cache_required, cache_time_in_mins } = data[0];
-      let params = req.originalUrl.replace(`/v1/${slug}`, "");
+      let params = req.originalUrl.replace(`/${slug}`, "");
       let url = `${original_url}${params}`;
       let method = req.method;
 
