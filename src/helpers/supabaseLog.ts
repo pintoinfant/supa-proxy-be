@@ -7,7 +7,7 @@ export const supabaseLog = async (
   next: NextFunction
 ) => {
   let slug = req.originalUrl.split("/")[2];
-  let params = req.originalUrl.replace(`/v1/proxy/${slug}`, "");
+  let params = req.originalUrl.replace(`/v1/${slug}`, "");
   await supabase.from("logs").insert([
     {
       slug,

@@ -4,8 +4,7 @@ import { supabase } from "../../helpers/client";
 
 export default class StatsController {
   public getMethodStats = async (req: Request, res: Response): Promise<any> => {
-    let slug = req.originalUrl.split("/")[3];
-    //postgrest group by method
+    let { slug } = req.params;
     try {
       const { data, error } = await supabase.from("logs").select("*").eq("slug", slug);
       const methods = [...new Set(data.map(item => item.method))];
@@ -30,7 +29,7 @@ export default class StatsController {
   };
 
   public getPath = async (req: Request, res: Response): Promise<any> => {
-    let slug = req.originalUrl.split("/")[3];
+    let { slug } = req.params;
     try {
       const { data, error } = await supabase.from("logs").select("*").eq("slug", slug);
       const paths = [...new Set(data.map(item => item.path))];
