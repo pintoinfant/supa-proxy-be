@@ -6,7 +6,7 @@ const home: Router = Router();
 // API Home Page
 home.get("/", async (req: Request, res: Response): Promise<any> => {
   try {
-    var title = `express-typescript-boilerplate`;
+    var title = `supaproxy-be`;
     res
       .status(200)
       .send(
